@@ -184,7 +184,21 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
   self.topViewSnapshot = [[UIView alloc] initWithFrame:self.topView.bounds];
   [self.topViewSnapshot setAutoresizingMask:self.autoResizeToFillScreen];
   [self.topViewSnapshot addGestureRecognizer:self.resetTapGesture];
+    /// Slider && switch fix (tiko)
+    _panGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
 }
+
+
+/// Slider && switch fix (tiko)
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gesture shouldReceiveTouch:(UITouch *)touch
+{
+    if ([gesture isKindOfClass:[UIPanGestureRecognizer class]])
+    {
+        if ([touch.view isKindOfClass:[UISlider class]] || [touch.view isKindOfClass:[UISwitch class]]) return NO;
+    }
+    return YES;
+}
+/// ---
 
 - (void)viewWillAppear:(BOOL)animated
 {
